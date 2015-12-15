@@ -1,6 +1,6 @@
 # cexml
 
-Camel eating XML
+This project is about testing how Camel and Spring boot can handle messaging based on XSD, REST and JMS-queues.
 
 # Objective
 
@@ -22,42 +22,6 @@ If something bad happens between steps 1 and 7 then http 200 is returned with xm
 
 When steps 1-7 are done without errors then http 200 is returned with xml payload saying input xml is processed.
 
-# Data
-
-**Input**
-
-Step 1: HTTP POST payload xml must be valid against camelfood.xsd.
-
-Like CamelFoodExample.xml
-```
-<camelfood>
-   <name>dry grain</name>
-   <amount>82723023</amount>
-</camelfood>
-```
-
-**Output**
-
-HTTP response payload xml must be valid against processed.xsd
-
-Step 7 happy case, like ResponceOkExample.xml
-```
-<responce>
-  <processed>true</processed>
-  <time>2007-10-26T09:36:28</time>
-  <message>OK</message>
-</responce>
-```
-
-Steps 1-7 fail case, like ResponceFailExample.xml
-```
-<responce>
-  <processed>false</processed>
-  <time>2007-10-26T09:36:28</time>
-  <message>Something bad happened when doing this and that</message>
-</responce>
-```
-
 # Stack
 
 __Language__
@@ -70,7 +34,32 @@ Apache Camel + Spring boot
 __Build tool__
 Apache Maven
 
-# Modules
+# Implementation
 
+├── camel
+│   ├── pom.xml
+│   ├── README.md
+│   └── src
+│       └── main
+│           ├── java
+│           │   └── tk
+│           │       └── sammontakoja
+│           │           └── cexml
+│           │               ├── Application.java
+│           │               └── RouterInitializer.java
+│           └── resources
+│               ├── application.properties
+│               └── banner.txt
+├── pom.xml
+├── README.md
+└── xsd2jaxb
+    ├── messages
+    │   ├── camelfood.xsd
+    │   ├── processed.xsd
+    ├── pom.xml
+    └── README.md
+10 directories, 15 files
 
-
+Module __xsd2jaxb__ hold XSD files and convert them to JAXB classes.
+Module __camel__ build war-packet which contains all applicaton logic.
+Module __integrationtest__ verify project objective if fullfilled.
