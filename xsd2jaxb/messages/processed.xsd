@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:element name="responce" type="responceType"/>
-  <xs:complexType name="responceType">
+  <xs:element name="responce" type="Responce"/>
+  <xs:complexType name="Responce">
     <xs:sequence>
       <xs:element type="xs:boolean" name="processed"/>
       <xs:element type="xs:dateTime" name="time" minOccurs="0" maxOccurs="1"/>

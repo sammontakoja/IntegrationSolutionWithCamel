@@ -15,16 +15,13 @@ public class Application extends FatJarRouter {
     @Override
     public void configure() {
         restConfiguration().component("servlet");
-        from("servlet:hello?servletName=example").transform().simple("camel");
-
-        // TODO rest API not working yet with Apache servlet component
         rest("/foo").get("/bar").route().transform().simple("Rest");
     }
 
     @Bean
     public ServletRegistrationBean servletRegistrationBean() {
         ServletRegistrationBean registration = new ServletRegistrationBean(new CamelHttpTransportServlet(), "/food/*");
-        registration.setName("example");
+        registration.setName("CamelServlet");
         return registration;
     }
 
