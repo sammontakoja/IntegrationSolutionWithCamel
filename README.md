@@ -36,6 +36,7 @@ Apache Maven
 
 # Implementation
 
+```
 ├── camel
 │   ├── pom.xml
 │   ├── README.md
@@ -50,16 +51,22 @@ Apache Maven
 │           └── resources
 │               ├── application.properties
 │               └── banner.txt
+├── integrationtest
+│   ├── pom.xml
+│   └── README.md
 ├── pom.xml
 ├── README.md
 └── xsd2jaxb
     ├── messages
     │   ├── camelfood.xsd
-    │   ├── processed.xsd
+    │   └── processed.xsd
     ├── pom.xml
     └── README.md
-10 directories, 15 files
+11 directories, 14 files
+```
 
 Module __xsd2jaxb__ hold XSD files and convert them to JAXB classes.
+
 Module __camel__ build war-packet which contains all applicaton logic.
+
 Module __integrationtest__ verify project objective if fullfilled.
