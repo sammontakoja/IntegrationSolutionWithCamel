@@ -12,5 +12,18 @@
     <artifactId>integrationtest</artifactId>
     <version>0.1-SNAPSHOT</version>
     <name>Project object verifier</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.restfuse</groupId>
+            <artifactId>com.eclipsesource.restfuse</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+    </dependencies>
     
 </project>

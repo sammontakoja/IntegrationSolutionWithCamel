@@ -15,4 +15,5 @@ Project objective is divided into 8 steps.
 7. Put second XML message to HTTP response (who made the POST)
 8. Read first XML message from JMS queue and write XML content to log file
 
-So far vefified:
+So far vefified steps:
+1,2,3

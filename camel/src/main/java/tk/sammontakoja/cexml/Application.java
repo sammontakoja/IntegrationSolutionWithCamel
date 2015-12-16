@@ -1,6 +1,7 @@
 package tk.sammontakoja.cexml;
 
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
+import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.spring.boot.FatJarRouter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
@@ -14,8 +15,10 @@ public class Application extends FatJarRouter {
 
     @Override
     public void configure() {
-        restConfiguration().component("servlet");
-        rest("/foo").get("/bar").route().transform().simple("Rest");
+
+        restConfiguration().component("servlet").contextPath("/camel").bindingMode(RestBindingMode.xml);
+
+        rest("/eat").post().type(Camelfood.class).to("bean:store");
     }
 
     @Bean

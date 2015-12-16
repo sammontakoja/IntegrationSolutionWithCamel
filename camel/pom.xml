@@ -23,7 +23,12 @@
     </properties>
 
     <dependencies>
-
+        <!-- JAXB classes -->
+        <dependency>
+            <groupId>tk.sammontakoja.cexml</groupId>
+            <artifactId>xsd2jaxb</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
         <!-- Camel -->
         <dependency>
             <groupId>org.apache.camel</groupId>
