@@ -10,8 +10,8 @@ import java.util.Random;
 /**
  * @author Ari Aaltonen
  */
-@Component("store")
-public class Store {
+@Component("foodConsumer")
+public class FoodConsumer {
 
     @Resource
     public JdbcTemplate jdbcTemplate;
