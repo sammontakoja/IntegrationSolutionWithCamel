@@ -10,5 +10,6 @@ buildNumber.properties
 .mvn/timing.properties
 # IDEA IDE
 *iml
+.idea
 # ActiveMQ file store
 LevelDB
