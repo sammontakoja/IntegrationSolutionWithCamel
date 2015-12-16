@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <parent>
         <groupId>tk.sammontakoja.cexml</groupId>
         <artifactId>application</artifactId>
@@ -12,34 +12,60 @@
     <artifactId>xsd2jaxb</artifactId>
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
-    <name>XSD files to JAXB classes converter</name>
-    
+    <name>XSD files to JAXB classes</name>
+
     <build>
         <plugins>
             <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
-                <version>0.12.3</version>
+                <version>0.13.1</version>
+                <configuration>
+                    <schemaDirectory>messages</schemaDirectory>
+                    <bindingDirectory>messages</bindingDirectory>
+                    <generatePackage>tk.sammontakoja.cexml</generatePackage>
+                    <strict>false</strict>
+                    <extension>true</extension>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-basics</artifactId>
+                            <version>0.6.2</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.jvnet.jaxb2_commons</groupId>
+                            <artifactId>jaxb2-basics-annotate</artifactId>
+                            <version>0.6.2</version>
+                        </plugin>
+                    </plugins>
+                    <args>
+                        <arg>-Xannotate</arg>
+                        <arg>-XtoString</arg>
+                    </args>
+                </configuration>
                 <executions>
                     <execution>
+                        <id>generate</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>
-                        <configuration>
-                            <schemas>
-                                <schema>
-                                    <fileset>
-                                        <directory>${project.basedir}/messages</directory>
-                                        <includes>
-                                            <include>*.xsd</include>
-                                        </includes>
-                                    </fileset>
-                                </schema>
-                            </schemas>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics-runtime</artifactId>
+            <version>0.6.2</version>
+        </dependency>
+    </dependencies>
 </project>
