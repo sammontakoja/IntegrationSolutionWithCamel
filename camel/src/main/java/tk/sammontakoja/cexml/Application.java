@@ -20,7 +20,7 @@ public class Application extends FatJarRouter {
 
         rest("/eat").post().type(Camelfood.class).to("bean:foodConsumer");
 
-        rest("/eaten").get().type(String.class).to("bean:foodViewer");
+        rest("/eaten").get().type(String.class).to("bean:foodViewer").outType(Camelfoodlist.class);
     }
 
     @Bean

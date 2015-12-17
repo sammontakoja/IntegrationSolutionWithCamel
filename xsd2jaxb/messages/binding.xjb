@@ -15,6 +15,15 @@
             </annox:annotate>
         </jaxb:bindings>
     </jaxb:bindings>
+
+    <jaxb:bindings schemaLocation="camelfoodlist.xsd" node="/xs:schema">
+        <jaxb:bindings node="xs:complexType[@name='camelfoodlist']">
+            <annox:annotate>
+                <annox:annotate annox:class="javax.xml.bind.annotation.XmlRootElement" name="camelfoodlist" />
+            </annox:annotate>
+        </jaxb:bindings>
+    </jaxb:bindings>
+
     <jaxb:bindings schemaLocation="processed.xsd" node="/xs:schema">
         <jaxb:bindings node="xs:complexType[@name='responce']">
             <annox:annotate>

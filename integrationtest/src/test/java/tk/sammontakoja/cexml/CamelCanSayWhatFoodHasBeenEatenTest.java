@@ -39,7 +39,18 @@ public class CamelCanSayWhatFoodHasBeenEatenTest {
     // To get this pass CamelFood.xml must be posted to http://localhost:8080/camel/food/eat
     @HttpTest( method = Method.GET, path = "/food/eaten")
     public void verify_given_camel_food_is_eaten() {
-        assertThat(response.getBody(), containsString("hay"));
-        assertThat(response.getBody(), containsString("666"));
+
+        String result = "<camelfoodlist>\n" +
+                "    <camelfood>\n" +
+                "        <name>Hello</name>\n" +
+                "        <amount>2.0</amount>\n" +
+                "    </camelfood>\n" +
+                "    <camelfood>\n" +
+                "        <name>World</name>\n" +
+                "        <amount>666.0</amount>\n" +
+                "    </camelfood>\n" +
+                "</camelfoodlist>";
+
+        assertThat(response.getBody(), containsString(result));
     }
 }

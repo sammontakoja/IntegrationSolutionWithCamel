@@ -24,19 +24,23 @@ public class FoodViewer {
     public JdbcTemplate jdbcTemplate;
 
     public void doView(Exchange exchange) {
-        String sql = "SELECT * FROM CAMELFOOD";
 
-        StringBuilder sb = new StringBuilder();
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList("SELECT * FROM CAMELFOOD");
 
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql);
-        for (Map<String, Object> row : rows) {
-            sb.append("\n");
-            sb.append(row.get("ID"));
-            sb.append(row.get("NAME"));
-            sb.append(row.get("AMOUNT"));
-        }
+        Camelfoodlist camelfoodlist = new ObjectFactory().createCamelfoodlist();
+        camelfoodlist.camelfood = new ArrayList<Camelfood>();
 
-        exchange.getOut().setBody(sb.toString());
+        for (Map<String, Object> row : rows)
+            camelfoodlist.camelfood.add(map(row));
+
+        exchange.getOut().setBody(camelfoodlist);
+    }
+
+    private Camelfood map(Map<String, Object> row) {
+        Camelfood camelfood = new ObjectFactory().createCamelfood();
+        camelfood.setName((String) row.get("NAME"));
+        camelfood.setAmount((Integer) row.get("AMOUNT"));
+        return camelfood;
     }
 }
 
