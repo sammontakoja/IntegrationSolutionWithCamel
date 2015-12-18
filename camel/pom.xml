@@ -23,13 +23,21 @@
     </properties>
 
     <dependencies>
+
         <!-- JAXB classes -->
         <dependency>
             <groupId>tk.sammontakoja.cexml</groupId>
             <artifactId>xsd2jaxb</artifactId>
             <version>0.1-SNAPSHOT</version>
         </dependency>
-        <!-- Camel -->
+
+        <!--██████╗ █████╗ ███╗   ███╗███████╗██╗-->
+        <!--██╔════╝██╔══██╗████╗ ████║██╔════╝██║-->
+        <!--██║     ███████║██╔████╔██║█████╗  ██║-->
+        <!--██║     ██╔══██║██║╚██╔╝██║██╔══╝  ██║-->
+        <!--╚██████╗██║  ██║██║ ╚═╝ ██║███████╗███████╗-->
+        <!--╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝-->
+
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-spring-boot</artifactId>
@@ -50,7 +58,15 @@
             <artifactId>camel-jaxb</artifactId>
             <version>${camel.version}</version>
         </dependency>
-        <!--Spring-->
+
+        <!--███████╗██████╗ ██████╗ ██╗███╗   ██╗ ██████╗-->
+        <!--██╔════╝██╔══██╗██╔══██╗██║████╗  ██║██╔════╝-->
+        <!--███████╗██████╔╝██████╔╝██║██╔██╗ ██║██║  ███╗-->
+        <!--╚════██║██╔═══╝ ██╔══██╗██║██║╚██╗██║██║   ██║-->
+        <!--███████║██║     ██║  ██║██║██║ ╚████║╚██████╔╝-->
+        <!--╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝-->
+
+        <!-- Undertow instead of tomcat -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -63,27 +79,28 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
+
+        <!-- Embedded transaction manager Atomikos -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <artifactId>spring-boot-starter-jta-atomikos</artifactId>
         </dependency>
+
+        <!-- Embedded transaction manager Atomikos -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!-- Embedded relational database H2 -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.190</version>
         </dependency>
-        <!-- Testing -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
