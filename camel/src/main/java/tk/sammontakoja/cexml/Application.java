@@ -18,7 +18,13 @@ public class Application extends FatJarRouter {
 
         restConfiguration().component("servlet").contextPath("/camel").bindingMode(RestBindingMode.auto);
 
-        rest("/eat").post().type(Camelfood.class).to("bean:foodConsumer");
+        rest("/eat").post()
+                .type(Camelfood.class)
+                .to("direct:foodPipe");
+
+        from("direct:foodPipe")
+                .to("bean:foodConsumer")
+                .to("bean:digestion");
 
         rest("/eaten").get().type(String.class).to("bean:foodViewer").outType(Camelfoodlist.class);
     }

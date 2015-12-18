@@ -40,6 +40,11 @@ public class CamelCanEatCamelFoodTest {
         assertThat(response.getStatus(), is(500));
     }
 
+    @HttpTest( method = Method.POST, path = "/food/eat", file = "/BadCamelFood.xml")
+    public void posting_not_suitable_camelfood_return_http_500() {
+        assertThat(response.getStatus(), is(500));
+    }
+
     @HttpTest( method = Method.POST, path = "/food/eat", file = "/CamelFood.xml")
     public void posting_well_formed_camelfood_return_http_200() {
         assertThat(response.getStatus(), is(200));

@@ -52,5 +52,7 @@ public class CamelCanSayWhatFoodHasBeenEatenTest {
                 "</camelfoodlist>";
 
         assertThat(response.getBody(), containsString(result));
+
+        System.out.println(response.getBody());
     }
 }
