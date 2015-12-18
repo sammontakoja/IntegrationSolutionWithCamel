@@ -1,20 +1,46 @@
 package tk.sammontakoja.cexml;
 
+import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.spring.boot.FatJarRouter;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.bind.UnmarshalException;
+
+import static org.apache.camel.Exchange.*;
+
 @SpringBootApplication
+@EnableTransactionManagement
 @RestController
 public class Application extends FatJarRouter {
 
     @Override
     public void configure() {
+
+        onException(InvalidPayloadException.class)
+                .handled(true)
+                .setHeader(HTTP_RESPONSE_CODE, constant(404))
+                .setHeader(CONTENT_TYPE, constant("text/plain"))
+                .setBody(exceptionMessage());
+
+        onException(UnmarshalException.class)
+                .handled(true)
+                .setHeader(HTTP_RESPONSE_CODE, constant(404))
+                .setHeader(CONTENT_TYPE, constant("text/plain"))
+                .setBody(exceptionMessage());
+
+        onException(CannotEatApplesException.class)
+                .handled(true)
+                .setHeader(HTTP_RESPONSE_CODE, constant(404))
+                .setHeader(CONTENT_TYPE, constant("text/plain"))
+                .setBody(exceptionMessage())
+                .markRollbackOnlyLast();
 
         restConfiguration().component("servlet").contextPath("/camel").bindingMode(RestBindingMode.auto);
 
@@ -23,6 +49,7 @@ public class Application extends FatJarRouter {
                 .to("direct:foodPipe");
 
         from("direct:foodPipe")
+                .transacted()
                 .to("bean:foodConsumer")
                 .to("bean:digestion");
 

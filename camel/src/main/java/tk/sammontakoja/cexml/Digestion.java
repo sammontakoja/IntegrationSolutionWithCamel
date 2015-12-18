@@ -26,6 +26,10 @@ public class Digestion {
     }
 
     private boolean properFood(String food) {
+
+        if (food.contains("apple"))
+            throw new CannotEatApplesException("Dummy, camels do not eat apples");
+
         return (food.contains("hay") || food.contains("dry grain"));
     }
 

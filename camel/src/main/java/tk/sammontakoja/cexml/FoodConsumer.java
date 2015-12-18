@@ -7,12 +7,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.util.Random;
 
 /**
  * @author Ari Aaltonen
  */
 @Component("foodConsumer")
+@Transactional
 public class FoodConsumer {
 
     private static Logger LOG = LoggerFactory.getLogger(FoodConsumer.class);
