@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
  * @author Ari Aaltonen
  */
 
-@RunWith( HttpJUnitRunner.class )
+@RunWith(HttpJUnitRunner.class)
 public class CamelEatHayWithPleasureTest {
 
     @Rule

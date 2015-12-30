@@ -2,11 +2,14 @@ package tk.sammontakoja.cexml;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.broker.BrokerService;
+import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.activemq.jms.pool.PooledConnectionFactory;
 import org.apache.activemq.store.leveldb.LevelDBPersistenceAdapter;
 import org.apache.camel.Exchange;
+import org.apache.camel.ExchangePattern;
 import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.Processor;
+import org.apache.camel.component.jms.JmsConfiguration;
 import org.apache.camel.component.servlet.CamelHttpTransportServlet;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.spring.boot.FatJarRouter;
@@ -14,17 +17,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.jms.ConnectionFactory;
 import javax.xml.bind.UnmarshalException;
+
+import java.io.File;
 
 import static org.apache.camel.Exchange.CONTENT_TYPE;
 import static org.apache.camel.Exchange.HTTP_RESPONSE_CODE;
 
 @SpringBootApplication
+@EnableJms
 @EnableTransactionManagement
 @RestController
 public class Application extends FatJarRouter {
@@ -58,19 +64,13 @@ public class Application extends FatJarRouter {
                 .to("direct:foodPipe");
 
         from("direct:foodPipe")
-                .transacted("")
-                .to("bean:foodConsumer")
-                .to("bean:digestion")
-                .to("activemq:testingQueue");
+                .transacted()
+                .to("foodConsumer")
+                .to("digestion")
+                .to(ExchangePattern.InOnly, "activemq:testingQueue");
 
-        // TODO How to end transaction when msg has been written to queue
-
-        from("activemq:testingQueue").process(new Processor() {
-            public void process(Exchange exchange) throws Exception {
-                System.out.println("JEE!");
-                System.out.println(exchange.getIn());
-            }
-        });
+        from("activemq:testingQueue")
+                .to("lawn");
 
         rest("/eaten").get().type(String.class).to("bean:foodViewer").outType(Camelfoodlist.class);
     }
@@ -88,16 +88,38 @@ public class Application extends FatJarRouter {
     @Value("${activemq.data.directory}")
     private String activeMQDataDirectory;
 
-    @Bean
-    ConnectionFactory jmsConnectionFactory() {
-        PooledConnectionFactory pool = new PooledConnectionFactory();
-        pool.setConnectionFactory(new ActiveMQConnectionFactory(activeMQBrokerUrl));
-        return pool;
+    @Bean(name = "pooledConnectionFactory")
+    public PooledConnectionFactory getPooledConnectionFactory() {
+
+        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
+        activeMQConnectionFactory.setBrokerURL(activeMQBrokerUrl);
+
+        PooledConnectionFactory pooledConnectionFactory = new PooledConnectionFactory();
+        pooledConnectionFactory.setMaxConnections(8);
+        pooledConnectionFactory.setConnectionFactory(activeMQConnectionFactory);
+        return pooledConnectionFactory;
+    }
+
+    @Bean(name = "jmsConfig")
+    JmsConfiguration getJmsConfiguration() {
+        JmsConfiguration jmsConfiguration = new JmsConfiguration();
+        jmsConfiguration.setConnectionFactory(getPooledConnectionFactory());
+        return jmsConfiguration;
+    }
+
+    @Bean(name = "activemq")
+    ActiveMQComponent getActiveMQComponent(JmsConfiguration jmsConfiguration) {
+        ActiveMQComponent activeMQComponent = new ActiveMQComponent();
+        activeMQComponent.setConfiguration(jmsConfiguration);
+        activeMQComponent.setTransacted(false);
+        activeMQComponent.setCacheLevel(0);
+        return activeMQComponent;
     }
 
     @Bean
     LevelDBPersistenceAdapter myLevelDBPersistenceAdapter() {
         LevelDBPersistenceAdapter levelDBPersistenceAdapter = new LevelDBPersistenceAdapter();
+        levelDBPersistenceAdapter.setDirectory(new File(activeMQDataDirectory));
         return levelDBPersistenceAdapter;
     }
 
