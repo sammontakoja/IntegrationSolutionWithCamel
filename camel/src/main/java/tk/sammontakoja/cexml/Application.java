@@ -30,7 +30,6 @@ import static org.apache.camel.Exchange.CONTENT_TYPE;
 import static org.apache.camel.Exchange.HTTP_RESPONSE_CODE;
 
 @SpringBootApplication
-@EnableJms
 @EnableTransactionManagement
 @RestController
 public class Application extends FatJarRouter {
