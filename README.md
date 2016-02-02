@@ -1,4 +1,4 @@
-# cexml
+# NoToBigJavaServers
 
 Some (corporate) people tend to buy monolithic Java application servers like WebLogic mainly because they think there's no alternative way. 
 
