@@ -12,7 +12,7 @@ As a result this example application offer same kind services as bigger applicat
 
 2) JMS client and broker
 
-3) Transaction management broker (JTA, JMS, JDBC)
+3) Transaction client and broker (JTA, JMS, JDBC)
 
 # Stack
 Java 7
