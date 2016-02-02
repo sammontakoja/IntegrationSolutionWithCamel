@@ -7,16 +7,24 @@ I wrote this small example to prove them wrong.
 With Spring boot you can easilly combine smaller libraries into one application.
 
 As a result this example application offer same kind services as bigger application servers have:
+
 1) HTTP server
+
 2) JMS Client
+
 3) JMS Broker
+
 4) Transaction management
 
 # Stack
 Java 7
+
 Spring boot (for building the app)
+
 Apache Camel (for creating HTTP and JMS routing what several ESB tools offers)
+
 ActiveMQ (for being JMS client and broker)
+
 Atomikos (for transactions management)
 
 # Build
