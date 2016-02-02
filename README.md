@@ -10,11 +10,9 @@ As a result this example application offer same kind services as bigger applicat
 
 1) HTTP server
 
-2) JMS Client
+2) JMS client and broker
 
-3) JMS Broker
-
-4) Transaction management
+3) Transaction management broker (JTA, JMS, JDBC)
 
 # Stack
 Java 7
